@@ -7,34 +7,37 @@ USE bamazon_DB;
 -- Creating a product table
 CREATE TABLE products
 (
-    item_id INT
-    AUTO_INCREMENT NOT NULL,
-  product_name VARCHAR
-    (45) NOT NULL,
-  department_name VARCHAR
-    (45) NOT NULL,
+  team_id INT
+  AUTO_INCREMENT NOT NULL,
+  team_name VARCHAR
+  (40),
+  conference VARCHAR
+  (45),
   price DECIMAL
-    (65,2) NOT NULL,
-  stock_quantity INT
-    (100) NOT NULL,
+  (65,2) NOT NULL,
+  stock INT
+  (20) NOT NULL,
   primary key
-    (item_id)
+  (team_id)
 );
-    -- populating the table with 10 products
-    INSERT INTO products
-        (product_name, department_name, price,stock_quantity)
-    VALUES
-        ('bed' , 'bedding', 1083.25, 8),
-        ('tv', 'entertainment', 512.50, 23),
-        ('couch', 'furniture', 803.00, 30),
-        ('pillows', 'bedding', 479.75, 14),
-        ('basketball', 'sports', 18.25, 50),
-        ('laptop', 'entertainment',
-            999.00, 26),
-        ('chair', 'furniture', 10.25, 42),
-        ('bike', 'sports', 30.50, 70),
-        ('phone', 'entertainment', 8.00, 83);
+
+  -- populating the table with 10 products
+  INSERT INTO products
+    (team_name,conference,price,stock)
+  VALUES
+    ('Golden State Warriors', 'West', 80000, 3),
+    ('Los Angeles Lakes', 'West', 30000, 6),
+    ('Toronto Raptors', 'East', 60000, 4),
+    ('Brooklyn Nets', 'East', 20000, 5),
+    ('Sacamento Kings', 'West', 10000, 9),
+    ('Boston Celtics', 'East', 50000, 1),
+    ('Houston Rockets', 'West', 40000, 2),
+    ('Milwaukee Bucks', 'East', 70000, 8),
+    ('Los Angeles Clippers', 'West', 30000, 7),
+    ('Chicago Bulls', 'East', 60000, 4);
 
 
-    SELECT *
-    FROM products;
+  SELECT *
+  FROM products;
+
+
