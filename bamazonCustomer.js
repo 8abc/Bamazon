@@ -19,33 +19,73 @@ var connection = mysql.createConnection({
   database: "bamazon_DB"
 });
 connection.connect();
-
+// function to display available teams
 var display = function() {
   connection.query("SELECT * FROM products", function(err, res) {
-    if (err) throw err;
     console.log("---------------------");
-    console.log("-------BAMAZON-------");
+    console.log("BAMAZON ");
     console.log("---------------------");
-    console.log("---------------------");
-    console.log("Select a team below:");
-    console.log("---------------------");
+    console.log("Select Your Team Below: ");
+    console.log("");
+    for (var i = 0; i < res.length; i++) {
+      console.log(
+        "ID: " +
+          res[i].team_id +
+          "|" +
+          "Team Name: " +
+          res[i].team_name +
+          "|" +
+          "Conference: " +
+          res[i].conference +
+          "|" +
+          "Price: " +
+          res[i].price +
+          "|" +
+          "Stock: " +
+          res[i].stock
+      );
+      console.log("----------------");
+    }
   });
 };
-// connection.connect(function(err) {
-//   if (err) throw err;
-//   console.log("Connected");
-//   processOrder("bed", 3);
-//   //   run a function after connection is made to prompt ths user
-// });
+display();
 
-// function processOrder(item, quantity) {
-//   console.log(item);
-//   connection.query(
-//     `SELECT * FROM products where (?)`,
-//     { product_name: item },
-//     // checks the error in the query and gives data
-//     function(err, inventory) {
-//       console.log(inventory[0]);
-//     }
-//   );
-// }
+// function to ask the user what they want to shop for
+var shopping = function() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "Enter the ID of the team you would like to purchase.",
+        name: "team"
+      },
+
+      {
+        type: "input",
+        message: "How many would you like to buy?",
+        name: "password"
+      },
+      // Here we ask the user to confirm.
+      {
+        type: "confirm",
+        message: "Are you sure?x",
+        name: "confirm",
+        default: true
+      }
+    ])
+    .then(function(inquirerResponse) {
+      if (inquirerResponse.confirm) {
+        console.log("\nWelcome " + inquirerResponse.username);
+        console.log(
+          "Your " + inquirerResponse.pokemon + " is ready for battle!\n"
+        );
+      } else {
+        console.log(
+          "\nThat's okay " +
+            inquirerResponse.username +
+            ", come again when you are more sure.\n"
+        );
+      }
+    });
+};
+shopping();
