@@ -49,49 +49,57 @@ var display = function() {
   });
 };
 display();
-
-connection.query("SELECT * FROM products", function(err, res) {
-  // function to ask the user what they want to shop for
-  var shopping = function() {
+// function to ask the user what team they would like to shop for
+var shopping = function() {
+  // connects to mysql servers and darabase
+  connection.query("SELECT * FROM products", function(err, res) {
+    // ask user what they want
     inquirer
       .prompt([
         {
-          type: "input",
+          name: "id",
           message: "Enter the ID of the team you would like to purchase.",
-          name: "team"
+          type: "input"
         },
-
         {
-          type: "input",
-          message: "How many would you like to buy?",
-          name: "count"
+          name: "count",
+          message: "How many would you like to buy? ",
+          type: "input"
         }
       ])
       .then(function(answers) {
         for (var i = 0; i < res.length; i++) {
-          if ((answers.team = res[i].team_id)) {
-            if (answers.count < res[i].stock) {
+          // setting the first answer to = team_id
+          if (answers.id == res[i].team_id) {
+            // checking if the second answer is less than the stock we have available
+            if (answers.count > res[i].stock) {
               console.log(
-                "Insufficient quantity!\n" +
-                  "\n We have " +
+                "\nInsufficient quantity. \nOnly " +
                   res[i].stock +
-                  "available"
+                  " available. \n\nOrder was not placed.\n"
               );
+              // stops the connection with mysql server and databse
               connection.end();
             } else {
-              var newCount = res[i].stock - answers.count;
+              // subtracts the count the user wants from what we have in stock
+              var newQuantity = res[i].stock - answers.count;
+              // multiple the price with the count the user wants
               var charged = res[i].price * answers.count;
+              // creates a variable name to use for console.logs
               var name = res[i].team_name;
+              // creates a variable id to use for console.logs
               var id = res[i].team_id;
 
-              connnection.query(
+              connection.query(
                 "UPDATE products SET ? WHERE ?",
-                [{ stock: newCount }, { team_id: id }],
+                //updates mysql database
+                [{ stock: newQuantity }, { team_id: id }],
                 function(err, res) {
+                  // if there's an error show the error
                   if (err) throw err;
-                  console.log("Purchase :" + name + "\n");
-                  console.log("Total: " + charged + "\n");
-                  console.log("Left in Stock: " + newCount + "/n");
+                  console.log("\nPuchased: " + name);
+                  console.log("Charged: $" + charged);
+                  console.log("Left in Stock: " + newQuantity + "\n");
                   connection.end();
                 }
               );
@@ -99,6 +107,6 @@ connection.query("SELECT * FROM products", function(err, res) {
           }
         }
       });
-  };
-  shopping();
-});
+  });
+};
+shopping();
