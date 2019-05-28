@@ -34,7 +34,7 @@ CREATE TABLE products
     ('Houston Rockets', 'West', 40000, 2),
     ('Milwaukee Bucks', 'East', 70000, 8),
     ('Los Angeles Clippers', 'West', 30000, 7),
-    ('Chicago Bulls', 'East', 60000, 4);
+    ('Chicago Bulls', 'East', 60000, 4)
 
 
   SELECT *

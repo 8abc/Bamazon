@@ -50,42 +50,55 @@ var display = function() {
 };
 display();
 
-// function to ask the user what they want to shop for
-var shopping = function() {
-  inquirer
-    .prompt([
-      {
-        type: "input",
-        message: "Enter the ID of the team you would like to purchase.",
-        name: "team"
-      },
+connection.query("SELECT * FROM products", function(err, res) {
+  // function to ask the user what they want to shop for
+  var shopping = function() {
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          message: "Enter the ID of the team you would like to purchase.",
+          name: "team"
+        },
 
-      {
-        type: "input",
-        message: "How many would you like to buy?",
-        name: "password"
-      },
-      // Here we ask the user to confirm.
-      {
-        type: "confirm",
-        message: "Are you sure?x",
-        name: "confirm",
-        default: true
-      }
-    ])
-    .then(function(inquirerResponse) {
-      if (inquirerResponse.confirm) {
-        console.log("\nWelcome " + inquirerResponse.username);
-        console.log(
-          "Your " + inquirerResponse.pokemon + " is ready for battle!\n"
-        );
-      } else {
-        console.log(
-          "\nThat's okay " +
-            inquirerResponse.username +
-            ", come again when you are more sure.\n"
-        );
-      }
-    });
-};
-shopping();
+        {
+          type: "input",
+          message: "How many would you like to buy?",
+          name: "count"
+        }
+      ])
+      .then(function(answers) {
+        for (var i = 0; i < res.length; i++) {
+          if ((answers.team = res[i].team_id)) {
+            if (answers.count < res[i].stock) {
+              console.log(
+                "Insufficient quantity!\n" +
+                  "\n We have " +
+                  res[i].stock +
+                  "available"
+              );
+              connection.end();
+            } else {
+              var newCount = res[i].stock - answers.count;
+              var charged = res[i].price * answers.count;
+              var name = res[i].team_name;
+              var id = res[i].team_id;
+
+              connnection.query(
+                "UPDATE products SET ? WHERE ?",
+                [{ stock: newCount }, { team_id: id }],
+                function(err, res) {
+                  if (err) throw err;
+                  console.log("Purchase :" + name + "\n");
+                  console.log("Total: " + charged + "\n");
+                  console.log("Left in Stock: " + newCount + "/n");
+                  connection.end();
+                }
+              );
+            }
+          }
+        }
+      });
+  };
+  shopping();
+});
