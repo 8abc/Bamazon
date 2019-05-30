@@ -2,14 +2,11 @@
 var mysql = require("mysql");
 // requires inquirer package
 var inquirer = require("inquirer");
-// requires clitable package
-var Table = require("cli-table");
 // connects to mysql server and databases
 var connection = mysql.createConnection({
   host: "localhost",
 
-  // Your port; if not 3306
-  //   port: 5432,
+  port: 3306,
 
   // Your username
   user: "root",
@@ -20,7 +17,7 @@ var connection = mysql.createConnection({
 });
 connection.connect();
 // function to display available teams
-var display = function() {
+function display() {
   connection.query("SELECT * FROM products", function(err, res) {
     console.log("---------------------");
     console.log("BAMAZON ");
@@ -47,10 +44,10 @@ var display = function() {
       console.log("----------------");
     }
   });
-};
+}
 display();
 // function to ask the user what team they would like to shop for
-var shopping = function() {
+function shopping() {
   // connects to mysql servers and darabase
   connection.query("SELECT * FROM products", function(err, res) {
     // ask user what they want
@@ -108,5 +105,5 @@ var shopping = function() {
         }
       });
   });
-};
+}
 shopping();
