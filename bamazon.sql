@@ -26,7 +26,7 @@ CREATE TABLE products
     (team_name,conference,price,stock)
   VALUES
     ('Golden State Warriors', 'West', 80000, 3),
-    ('Los Angeles Lakes', 'West', 30000, 6),
+    ('Los Angeles Lakers', 'West', 30000, 6),
     ('Toronto Raptors', 'East', 60000, 4),
     ('Brooklyn Nets', 'East', 20000, 5),
     ('Sacamento Kings', 'West', 10000, 9),
