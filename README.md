@@ -24,7 +24,6 @@ This will update the SQL database to reflect the remaining quantity & show the c
 
  <img width="643" alt="Screen Shot 2019-05-31 at 6 06 52 PM" src="https://user-images.githubusercontent.com/46228172/58744224-a4b38c80-83f4-11e9-8c37-8463efa7feec.png">
 
---
 
  #### Manager ####
  
