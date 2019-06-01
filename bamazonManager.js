@@ -46,9 +46,11 @@ function welcome() {
           addInventory();
           break;
         case "Add New Team":
-          addTeam();
+          addNewteam();
           break;
         case "End Session":
+          // ends the connection with mysql
+          connection.end();
           console.log("Bye");
           break;
       }
@@ -62,25 +64,8 @@ function display() {
     console.log("Teams for Sale");
     console.log("---------------------");
     console.log("");
-    for (var i = 0; i < res.length; i++) {
-      console.log(
-        "ID: " +
-          res[i].team_id +
-          "|" +
-          "Team Name: " +
-          res[i].team_name +
-          "|" +
-          "Conference: " +
-          res[i].conference +
-          "|" +
-          "Price: " +
-          res[i].price +
-          "|" +
-          "Stock: " +
-          res[i].stock
-      );
-      console.log("----------------");
-    }
+    // creates a table
+    console.table(res);
     welcome();
   });
 }
@@ -92,35 +77,15 @@ function lowInventory() {
   console.log("Viewing Low Inventory");
   console.log("---------------------");
   console.log("");
-  connection.query("SELECT * FROM products", function(err, res) {
+  connection.query("SELECT * FROM products WHERE stock < 5", function(
+    err,
+    res
+  ) {
     if (err) throw err;
-    // loops throw the teams
-    for (var i = 0; i < res.length; i++) {
-      // checks for teams that have less than 5 in stock
-      if (res[i].stock <= 5) {
-        console.log(
-          "ID: " +
-            res[i].team_id +
-            "|" +
-            "Team Name: " +
-            res[i].team_name +
-            "|" +
-            "Conference: " +
-            res[i].conference +
-            "|" +
-            "Price: " +
-            res[i].price +
-            "|" +
-            "Stock: " +
-            res[i].stock
-        );
-        console.log("----------------");
-      }
-    }
+    console.table(res);
     welcome();
   });
 }
-
 // function to add inventory, displays prompt to add another team and how much
 function addInventory() {
   console.log("----------------");
@@ -133,7 +98,7 @@ function addInventory() {
       .prompt([
         {
           name: "team",
-          message: "Which Team ID would you like to add?",
+          message: "Which team would you like to add?",
           type: "list",
           choices: displayTeam(res)
         },
@@ -146,7 +111,9 @@ function addInventory() {
       .then(function(answer) {
         for (var i = 0; i < res.length; i++) {
           if (answer.team === res[i].team_name) {
-            const newQuantity = res[i].stock + answer.quantity;
+            // creates a variable with a reference that can't be changed
+            // that's equal to stock plus what the user gave for quantity and makes it into a number
+            const newQuantity = res[i].stock + parseInt(answer.quantity);
             connection.query(
               "UPDATE products SET ? WHERE ?",
               //updates mysql database
@@ -173,7 +140,42 @@ function displayTeam(res) {
 // allows manager to add a new team
 function addNewteam() {
   console.log("----------------");
-  console.log("Adding to Inventory");
+  console.log("Adding New Team");
   console.log("----------------");
   console.log("");
+  inquirer
+    .prompt([
+      {
+        name: "teamName",
+        message: "What new team would you like to add?",
+        type: "list",
+        choices: displayTeam(res)
+      },
+      {
+        name: "confereneName",
+        message: "Which conference is the new team on?",
+        choices: ["West", "East"]
+      },
+      {
+        name: "price",
+        message: "How much does the new team cost?",
+        type: "input"
+      },
+      {
+        name: "qty",
+        message: "How many?",
+        type: "input"
+      }
+    ])
+    .then(function(answers) {
+      connection.query("INSERT INTO products SET ?", function(err, res) {
+        {
+          team_name: answers.teamName;
+          conference: answers.confereceName;
+          price: answers.price;
+          stock: answers.qty;
+        }
+      });
+    });
+  welcome();
 }
