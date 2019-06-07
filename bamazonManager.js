@@ -13,7 +13,7 @@ var connection = mysql.createConnection({
   user: "root",
 
   // Your password
-  password: "password",
+  password: "",
   database: "bamazon_DB"
 });
 connection.connect();
@@ -45,7 +45,7 @@ function welcome() {
         case "Add to Inventory":
           addInventory();
           break;
-        case "Add New Team":
+        case "Add a New Team":
           addNewteam();
           break;
         case "End Session":
@@ -129,7 +129,7 @@ function addInventory() {
       });
   });
 }
-function displayTeam(res) {
+function displayTeam() {
   var teams = [];
   for (var i = 0; i < res.length; i++) {
     teams.push(res[i].team_name);
@@ -148,13 +148,13 @@ function addNewteam() {
       {
         name: "teamName",
         message: "What new team would you like to add?",
-        type: "list",
-        choices: displayTeam(res)
+        type: "input",
       },
       {
-        name: "confereneName",
+        name: "conferenceName",
         message: "Which conference is the new team on?",
         choices: ["West", "East"]
+
       },
       {
         name: "price",
@@ -168,14 +168,13 @@ function addNewteam() {
       }
     ])
     .then(function(answers) {
-      connection.query("INSERT INTO products SET ?", function(err, res) {
-        {
-          team_name: answers.teamName;
-          conference: answers.confereceName;
-          price: answers.price;
-          stock: answers.qty;
-        }
+      connection.query("INSERT INTO products SET ?",    {
+        team_name: answers.teamName,
+        conference: answers.conferenceName,
+        price: answers.price,
+        stock: answers.qty,
+      }, function(err, res) {
+     welcome();
       });
     });
-  welcome();
 }
