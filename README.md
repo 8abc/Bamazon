@@ -31,6 +31,8 @@ This will update the SQL database to reflect the remaining quantity & show the c
 
 The manager has a menu of options:
 1. ```View Teams for Sale``` List available teams with names, prices, quantities
+<img width="340" alt="Screen Shot 2019-06-06 at 7 43 56 PM" src="https://user-images.githubusercontent.com/46228172/59078340-84bc1700-8893-11e9-91aa-a023bc228d29.png">
+
 
 <img width="636" alt="Screen Shot 2019-05-31 at 6 09 17 PM" src="https://user-images.githubusercontent.com/46228172/58744233-bdbc3d80-83f4-11e9-98b3-a38564b43839.png">
 
@@ -40,8 +42,7 @@ The manager has a menu of options:
 
 3. ```Add to Inventory``` Displays a prompt that will let the manager add more teams that store has.
 
-<img width="616" alt="Screen Shot 2019-05-31 at 6 10 40 PM" src="https://user-images.githubusercontent.com/46228172/58744247-d3316780-83f4-11e9-80d1-3bc21520094d.png">
+<img width="476" alt="Screen Shot 2019-05-31 at 6 10 40 PM" src="https://user-images.githubusercontent.com/46228172/58744247-d3316780-83f4-11e9-80d1-3bc21520094d.png">
 
 4. ```Add New Team``` Allows the manager to add a completely new team to the store
-
-![image](https://user-images.githubusercontent.com/46228172/59078260-21ca8000-8893-11e9-8936-cb8101fdddba.png)
+<img width="476" alt="Screen Shot 2019-06-06 at 7 46 40 PM" src="https://user-images.githubusercontent.com/46228172/59078409-d4024780-8893-11e9-9a02-bf3b33cc579d.png">
