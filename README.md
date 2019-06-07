@@ -44,4 +44,4 @@ The manager has a menu of options:
 
 4. ```Add New Team``` Allows the manager to add a completely new team to the store
 
-
+![image](https://user-images.githubusercontent.com/46228172/59078260-21ca8000-8893-11e9-8936-cb8101fdddba.png)
